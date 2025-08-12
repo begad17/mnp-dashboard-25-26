@@ -20,4 +20,5 @@ else:
     st.markdown("### GW1 has kicked off! 🎉")
 
 # Display draft results image
-st.image("draft_results.png", caption="Draft Results", use_column_width=True)
+# st.image("draft_results.png", caption="Draft Results", use_column_width=True)
+
