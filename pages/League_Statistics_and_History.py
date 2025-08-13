@@ -22,9 +22,6 @@ ax.axis('equal')  # Ensures pie is a circle
 # Display the matplotlib figure in Streamlit
 # st.pyplot(fig)
 
-# Page Title
-st.title("Statistics & League History")
-
 # Carousel Slide Selector
 slide = st.radio("Select Statistic View:", ["League Titles", "TBD"])
 
