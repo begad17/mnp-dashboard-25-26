@@ -1,4 +1,5 @@
 import streamlit as st
+import pandas as pd
 import matplotlib.pyplot as plt
 
 st.title("League Statistics & History")
@@ -20,3 +21,28 @@ ax.axis('equal')  # Ensures pie is a circle
 
 # Display the matplotlib figure in Streamlit
 # st.pyplot(fig)
+
+# Page Title
+st.title("Statistics & League History")
+
+# Carousel Slide Selector
+slide = st.radio("Select Statistic View:", ["League Titles", "Manager of the Month"])
+
+# League Titles Pie Chart
+if slide == "League Titles":
+    leagueWins = {'Team':['Jordan (1)','Begad (1)','Moe (1)'], 'Championships':[1,1,1]}
+    df = pd.DataFrame(leagueWins)
+    teamColours = ['#f40206','#0560b5','#ce0000']
+
+    fig, ax = plt.subplots()
+    ax.pie(
+        df['Championships'],
+        labels=df['Team'],
+        colors=teamColours,
+        startangle=90,
+        autopct='%1.1f%%'
+    )
+    ax.set_title("MoneyNotPassion League Titles")
+    ax.axis('equal')
+
+    st.pyplot(fig)
