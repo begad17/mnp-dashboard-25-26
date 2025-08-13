@@ -26,7 +26,7 @@ ax.axis('equal')  # Ensures pie is a circle
 st.title("Statistics & League History")
 
 # Carousel Slide Selector
-slide = st.radio("Select Statistic View:", ["League Titles", "Manager of the Month"])
+slide = st.radio("Select Statistic View:", ["League Titles", "TBD"])
 
 # League Titles Pie Chart
 if slide == "League Titles":
