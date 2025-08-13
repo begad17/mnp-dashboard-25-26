@@ -19,4 +19,4 @@ ax.set_title('Probability To Win The League')
 ax.axis('equal')  # Ensures pie is a circle
 
 # Display the matplotlib figure in Streamlit
-st.pyplot(fig)
+# st.pyplot(fig)
