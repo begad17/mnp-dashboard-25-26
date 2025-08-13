@@ -58,7 +58,7 @@ if slide == "Preseason Predictions":
         else:
             return [''] * len(row)
 
-    st.title("📊 Preseason Predictions")
+    st.title("Preseason Predictions")
     st.dataframe(df.style.apply(highlight_top3, axis=1), use_container_width=True)
 
 # =========================
@@ -83,3 +83,4 @@ elif slide == "Draft Results":
 
     st.title("📋 Draft Results")
     st.dataframe(df_draft, use_container_width=True)
+
