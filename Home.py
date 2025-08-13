@@ -81,6 +81,7 @@ elif slide == "Draft Results":
 
     df_draft = pd.DataFrame(draft_data)
 
-    st.title("📋 Draft Results")
+    st.title("Draft Results")
     st.dataframe(df_draft, use_container_width=True)
+
 
