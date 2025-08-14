@@ -43,3 +43,72 @@ if slide == "League Titles":
     ax.axis('equal')
 
     st.pyplot(fig)
+
+st.set_page_config(layout="wide")
+
+# Carousel navigation
+slide = st.radio(
+    "📜 League History",
+    ["22/23 Season", "23/24 Season", "24/25 Season"],
+    horizontal=True
+)
+
+def make_table(title, managers):
+    """Helper to create position table from list of managers"""
+    df = pd.DataFrame({
+        "Position": list(range(1, len(managers) + 1)),
+        "Manager": managers
+    })
+    st.subheader(title)
+    st.table(df)
+
+# --- SLIDE 1 ---
+if slide == "22/23 Season":
+    st.title("🏆 22/23 Season Review")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        make_table("📊 Preseason Predictions", [
+            "Chase", "Jordan", "Mustafa", "Fawzi", "Begad",
+            "Alex", "Emmett", "Moe", "Connor", "Michael"
+        ])
+
+    with col2:
+        make_table("🏁 Final Standings", [
+            "Jordan", "Michael", "Begad", "Moe", "Connor",
+            "Chase", "Emmett", "Alex", "Fawzi", "Mustafa"
+        ])
+
+# --- SLIDE 2 ---
+elif slide == "23/24 Season":
+    st.title("🏆 23/24 Season Review")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        make_table("📊 Preseason Predictions", [
+            "Fawzi", "Emmett", "Logan", "Michael", "Jordan",
+            "Begad", "Alex", "Connor", "Moe", "Chase"
+        ])
+
+    with col2:
+        make_table("🏁 Final Standings", [
+            "Begad", "Moe", "Logan", "Jordan", "Fawzi",
+            "Michael", "Emmett", "Chase", "Connor", "Alex"
+        ])
+
+# --- SLIDE 3 ---
+elif slide == "24/25 Season":
+    st.title("🏆 24/25 Season Review")
+    col1, col2 = st.columns(2)
+
+    with col1:
+        make_table("📊 Preseason Predictions", [
+            "Logan", "Jordan", "Moe", "Begad", "Chase",
+            "Michael", "Connor", "Fawzi", "Emmett", "Alex"
+        ])
+
+    with col2:
+        make_table("🏁 Final Standings", [
+            "Moe", "Connor", "Fawzi", "Michael", "Logan",
+            "Alex", "Jordan", "Begad", "Emmett", "Chase"
+        ])
