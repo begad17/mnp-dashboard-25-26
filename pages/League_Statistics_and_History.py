@@ -5,6 +5,45 @@ from streamlit_carousel import carousel
 import base64
 from io import BytesIO
 
+st.set_page_config(layout="wide")
+st.title("Current Season Statistics")
+
+# --- Carousel Slides (only image-based) ---
+slides = [
+    {
+        "title": "Manager of the Month (August)",
+        "text": "🏆 Pharaohs FC",
+        "img": "https://dummyimage.com/600x400/000/fff&text=Pharaohs+FC"
+    }
+]
+
+carousel(slides, width=600, height=400)
+
+# --- Line Graph: Table Position Changes ---
+st.subheader("📈 Table Position Changes (GW1–GW3)")
+
+data = {
+    "Manager": ["Alex", "Begad", "Chase", "Connor", "Emmett", 
+                "Fawzi", "Jordan", "Logan", "Michael", "Moe"],
+    "GW1": [9, 1, 3, 5, 7, 6, 4, 2, 8, 10],
+    "GW2": [3, 1, 8, 4, 10, 7, 2, 9, 5, 6],
+    "GW3": [3, 1, 4, 2, 8, 7, 6, 10, 5, 9]
+}
+df = pd.DataFrame(data).set_index("Manager")
+
+fig, ax = plt.subplots(figsize=(8, 5))
+for manager in df.index:
+    ax.plot(df.columns, df.loc[manager], marker="o", label=manager)
+
+ax.set_xlabel("Gameweek")
+ax.set_ylabel("Table Position")
+ax.set_title("Table Position Changes (GW1–GW3)")
+ax.invert_yaxis()  # 1 = best position
+ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=8)
+plt.tight_layout()
+
+st.pyplot(fig)
+
 st.title("League Statistics & History")
 # TODO: Add actual carousel code
 
@@ -115,55 +154,3 @@ elif slide == "24/25 Season":
             "Moe", "Connor", "Fawzi", "Michael", "Logan",
             "Alex", "Jordan", "Begad", "Emmett", "Chase"
         ])
-
-st.title("Current Season Statistics")
-
-# Helper: convert matplotlib fig → base64 for carousel
-def fig_to_base64(fig):
-    buf = BytesIO()
-    fig.savefig(buf, format="png", bbox_inches="tight")
-    buf.seek(0)
-    b64 = base64.b64encode(buf.read()).decode("utf-8")
-    return f"data:image/png;base64,{b64}"
-
-# --- CAROUSEL SLIDES ---
-slides = []
-
-# 🔹 Slide 1: Static Manager of the Month Graphic
-slides.append({
-    "title": "Manager of the Month (August)",
-    "text": "🏆 Pharaohs FC",
-    "img": "https://dummyimage.com/600x400/000/fff&text=Pharaohs+FC"
-    # Replace with your uploaded repo image (e.g., raw GitHub link)
-})
-
-# 🔹 Slide 2: Line Graph
-data = {
-    "Manager": ["Alex", "Begad", "Chase", "Connor", "Emmett", 
-                "Fawzi", "Jordan", "Logan", "Michael", "Moe"],
-    "GW1": [9, 1, 3, 5, 7, 6, 4, 2, 8, 10],
-    "GW2": [3, 1, 8, 4, 10, 7, 2, 9, 5, 6],
-    "GW3": [3, 1, 4, 2, 8, 7, 6, 10, 5, 9]
-}
-df = pd.DataFrame(data).set_index("Manager")
-
-fig, ax = plt.subplots(figsize=(8, 5))
-for manager in df.index:
-    ax.plot(df.columns, df.loc[manager], marker="o", label=manager)
-
-ax.set_xlabel("Gameweek")
-ax.set_ylabel("Table Position")
-ax.set_title("📈 Table Position Changes (GW1–GW3)")
-ax.invert_yaxis()
-ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=8)
-plt.tight_layout()
-
-# Convert to base64 for carousel
-slides.append({
-    "title": "GW1–GW3 Table Position Changes",
-    "text": "Track how managers have risen or fallen in the early weeks.",
-    "img": fig_to_base64(fig)
-})
-
-# --- Render Carousel ---
-carousel(items=slides, width=600, height=400)
