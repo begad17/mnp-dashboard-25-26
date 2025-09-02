@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from streamlit_carousel import carousel
+import base64
+from io import BytesIO
 
 st.title("League Statistics & History")
 # TODO: Add actual carousel code
@@ -116,17 +118,26 @@ elif slide == "24/25 Season":
 
 st.title("Current Season Statistics")
 
+# Helper: convert matplotlib fig → base64 for carousel
+def fig_to_base64(fig):
+    buf = BytesIO()
+    fig.savefig(buf, format="png", bbox_inches="tight")
+    buf.seek(0)
+    b64 = base64.b64encode(buf.read()).decode("utf-8")
+    return f"data:image/png;base64,{b64}"
+
 # --- CAROUSEL SLIDES ---
 slides = []
 
-# 🔹 Slide 1: Manager of the Month Graphic
+# 🔹 Slide 1: Static Manager of the Month Graphic
 slides.append({
     "title": "Manager of the Month (August)",
     "text": "🏆 Pharaohs FC",
-    "img": "https://dummyimage.com/600x400/000/fff&text=Pharaohs+FC"  # replace with your own graphic URL
+    "img": "https://dummyimage.com/600x400/000/fff&text=Pharaohs+FC"
+    # Replace with your uploaded repo image (e.g., raw GitHub link)
 })
 
-# 🔹 Slide 2: Line Graph (Position Changes GW1–GW3)
+# 🔹 Slide 2: Line Graph
 data = {
     "Manager": ["Alex", "Begad", "Chase", "Connor", "Emmett", 
                 "Fawzi", "Jordan", "Logan", "Michael", "Moe"],
@@ -136,7 +147,6 @@ data = {
 }
 df = pd.DataFrame(data).set_index("Manager")
 
-# Plot line graph
 fig, ax = plt.subplots(figsize=(8, 5))
 for manager in df.index:
     ax.plot(df.columns, df.loc[manager], marker="o", label=manager)
@@ -144,19 +154,15 @@ for manager in df.index:
 ax.set_xlabel("Gameweek")
 ax.set_ylabel("Table Position")
 ax.set_title("📈 Table Position Changes (GW1–GW3)")
-ax.invert_yaxis()  # lower number = higher rank
+ax.invert_yaxis()
 ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=8)
-
-# Save plot to file
 plt.tight_layout()
-plot_path = "position_changes.png"
-fig.savefig(plot_path)
 
-# Add graph as carousel slide
+# Convert to base64 for carousel
 slides.append({
     "title": "GW1–GW3 Table Position Changes",
     "text": "Track how managers have risen or fallen in the early weeks.",
-    "img": plot_path
+    "img": fig_to_base64(fig)
 })
 
 # --- Render Carousel ---
