@@ -2,8 +2,6 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 from streamlit_carousel import carousel
-import base64
-from io import BytesIO
 
 st.set_page_config(layout="wide")
 st.title("Current Season Statistics")
