@@ -24,7 +24,7 @@ ax.axis('equal')  # Ensures pie is a circle
 # st.pyplot(fig)
 
 # Carousel Slide Selector
-slide = st.radio("League Statistics:", ["League Titles", "TBD"])
+slide = st.radio("League Statistics:", ["League Titles", "Table Position Changes (GW1–GW3)"])
 
 # League Titles Pie Chart
 if slide == "League Titles":
@@ -44,6 +44,32 @@ if slide == "League Titles":
     ax.axis('equal')
 
     st.pyplot(fig)
+
+# --- SLIDE 4 ---
+elif slide == "Table Position Changes":
+    st.title("Table Position Changes (GW1–GW3)")
+
+data = {
+    "Manager": ["Alex", "Begad", "Chase", "Connor", "Emmett", 
+                "Fawzi", "Jordan", "Logan", "Michael", "Moe"],
+    "GW1": [9, 1, 3, 5, 7, 6, 4, 2, 8, 10],
+    "GW2": [3, 1, 8, 4, 10, 7, 2, 9, 5, 6],
+    "GW3": [3, 1, 4, 2, 8, 7, 6, 10, 5, 9]
+}
+df = pd.DataFrame(data).set_index("Manager")
+
+fig, ax = plt.subplots(figsize=(8, 5))
+for manager in df.index:
+    ax.plot(df.columns, df.loc[manager], marker="o", label=manager)
+
+ax.set_xlabel("Gameweek")
+ax.set_ylabel("Table Position")
+ax.set_title("Table Position Changes (GW1–GW3)")
+ax.invert_yaxis()  # 1 = best position
+ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=8)
+plt.tight_layout()
+
+st.pyplot(fig)
 
 st.set_page_config(layout="wide")
 
@@ -114,29 +140,3 @@ elif slide == "24/25 Season":
             "Alex", "Jordan", "Begad", "Emmett", "Chase"
         ])
 
-
-# --- SLIDE 4 ---
-elif slide == "Table Position Changes":
-    st.title("Table Position Changes (GW1–GW3)")
-
-data = {
-    "Manager": ["Alex", "Begad", "Chase", "Connor", "Emmett", 
-                "Fawzi", "Jordan", "Logan", "Michael", "Moe"],
-    "GW1": [9, 1, 3, 5, 7, 6, 4, 2, 8, 10],
-    "GW2": [3, 1, 8, 4, 10, 7, 2, 9, 5, 6],
-    "GW3": [3, 1, 4, 2, 8, 7, 6, 10, 5, 9]
-}
-df = pd.DataFrame(data).set_index("Manager")
-
-fig, ax = plt.subplots(figsize=(8, 5))
-for manager in df.index:
-    ax.plot(df.columns, df.loc[manager], marker="o", label=manager)
-
-ax.set_xlabel("Gameweek")
-ax.set_ylabel("Table Position")
-ax.set_title("Table Position Changes (GW1–GW3)")
-ax.invert_yaxis()  # 1 = best position
-ax.legend(bbox_to_anchor=(1.05, 1), loc="upper left", fontsize=8)
-plt.tight_layout()
-
-st.pyplot(fig)
