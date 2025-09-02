@@ -46,7 +46,6 @@ if slide == "League Titles":
     st.pyplot(fig)
 
 elif slide == "Table Position Changes (GW1–GW3)":
-    st.title("Table Position Changes (GW1–GW3)")
 
     data = {
         "Manager": ["Alex", "Begad", "Chase", "Connor", "Emmett", 
